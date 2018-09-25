@@ -405,11 +405,11 @@ const ErrorHandler = {
   handle(handlerInput, error) {
     console.log(`Error handled: ${error.message}`);
     console.log(`Error stack: ${error.stack}`);
-    const requestAttribtues = handlerInput.attributesManager.getRequestAttributes();
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
 
     return handlerInput.responseBuilder
-      .speak(requestAttribtues.t('ERROR_MESSAGE'))
-      .reprompt(requestAttribtues.t('ERROR_MESSAGE'))
+      .speak(requestAttributes.t('ERROR_MESSAGE'))
+      .reprompt(requestAttributes.t('ERROR_MESSAGE'))
       .getResponse();
   },
 };
