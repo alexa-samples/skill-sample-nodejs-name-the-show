@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "type": "CONSUMABLE",
+  "referenceName": "Five_Hint_Pack",
+  "publishingInformation": {
+    "locales": {
+      "en-US": {
+        "name": "Five Hint Pack",
+        "smallIconUri": "https://s3.amazonaws.com/jeffblankenburg.stuff/namethatshow/5hints_108.png",
+        "largeIconUri": "https://s3.amazonaws.com/jeffblankenburg.stuff/namethatshow/5hints_512.png",
+        "summary": "THIS IS THE SUMMARY.",
+        "description": "THIS IS THE DESCRIPTION.",
+        "examplePhrases": [
+          "TODO: REPLACE THIS WITH SAMPLE UTTERANCE FOR HOW USERS WILL BUY OR INVOKE THIS PRODUCT - 'Alexa, buy product name'  Or 'Alexa, play product name'"
+        ],
+        "keywords": [
+          "TODO: REPLACE THIS WITH ARRAY OF KEYWORDS TO BE USED FOR SEARCH INDEXING THE PRODUCT"
+        ],
+        "customProductPrompts": {
+          "purchasePromptDescription": "This will give you five hints to help you solve our questions. ",
+          "boughtCardDescription": "You have successfully purchased the five hint pack! "
+        }
+      }
+    },
+    "distributionCountries": [
+      "US"
+    ],
+    "pricing": {
+      "amazon.com": {
+        "releaseDate": "2018-08-28",
+        "defaultPriceListing": {
+          "price": 0.99,
+          "currency": "USD"
+        }
+      }
+    },
+    "taxInformation": {
+      "category": "SOFTWARE"
+    }
+  },
+  "privacyAndCompliance": {
+    "locales": {
+      "en-US": {
+        "privacyPolicyUrl": "http://jeffblankenburg.com/privacy"
+      }
+    }
+  },
+  "testingInstructions": "This should increment the total count of hints for a user by five.",
+  "purchasableState": "PURCHASABLE"
+}
