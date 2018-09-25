@@ -29,7 +29,7 @@ const data = [
     'showName': 'Transparent', 'actor1': 'Jeffrey Tambor', 'actor2': 'Gaby Hoffmann', 'actor3': 'Amy Landecker',
   },
   {
-    'showName': 'The Marevelous Mrs. Maisel', 'actor1': 'Matilda Szydagis', 'actor2': 'Rachel Brosnahan', 'actor3': 'Alex Borstein',
+    'showName': 'The Marvelous Mrs. Maisel', 'actor1': 'Matilda Szydagis', 'actor2': 'Rachel Brosnahan', 'actor3': 'Alex Borstein',
   },
   {
     'showName': 'The Tick', 'actor1': 'Peter Serafinowicz', 'actor2': 'Griffin Newman', 'actor3': 'Jackie Earle Haley',
