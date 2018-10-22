@@ -12,7 +12,13 @@
             }
           }
         }
-      }
+      },
+      "in_skill_products": [
+        {
+          "deploy_status": "Add",
+          "filePath": "isps\\consumable\\Five_Hint_Pack.json"
+        }
+      ]
     }
   }
 }

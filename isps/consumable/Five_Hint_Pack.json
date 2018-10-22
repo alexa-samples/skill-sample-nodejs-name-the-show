@@ -6,8 +6,8 @@
     "locales": {
       "en-US": {
         "name": "Five Hint Pack",
-        "smallIconUri": "https://s3.amazonaws.com/jeffblankenburg.stuff/namethatshow/5hints_108.png",
-        "largeIconUri": "https://s3.amazonaws.com/jeffblankenburg.stuff/namethatshow/5hints_512.png",
+        "smallIconUri": "https://s3.amazonaws.com/ask-samples-resources/icons/moneyicon_108.png",
+        "largeIconUri": "https://s3.amazonaws.com/ask-samples-resources/icons/moneyicon_512.png",
         "summary": "THIS IS THE SUMMARY.",
         "description": "THIS IS THE DESCRIPTION.",
         "examplePhrases": [
@@ -41,7 +41,7 @@
   "privacyAndCompliance": {
     "locales": {
       "en-US": {
-        "privacyPolicyUrl": "http://jeffblankenburg.com/privacy"
+        "privacyPolicyUrl": "http://localhost/privacy"
       }
     }
   },

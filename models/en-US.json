@@ -95,16 +95,16 @@
                 {
                     "name": "Answer",
                     "values": [
-                        { "name": {"value": "man in the high castle"}},
+                        { "name": {"value": "the man in the high castle"}},
                         { "name": {"value": "goliath"}},
                         { "name": {"value": "bosch"}},
                         { "name": {"value": "hand of god"}},
-                        { "name": {"value": "tom clancys jack ryan", "synonyms": ["jack ryan"]}},
-                        { "name": {"value": "grand tour"}},
+                        { "name": {"value": "tom clancy's jack ryan", "synonyms": ["jack ryan"]}},
+                        { "name": {"value": "the grand tour"}},
                         { "name": {"value": "transparent"}},
                         { "name": {"value": "sneaky pete"}},
-                        { "name": {"value": "marvelous mrs. maisel"}},
-                        { "name": {"value": "tick"}}
+                        { "name": {"value": "the marvelous mrs. maisel"}},
+                        { "name": {"value": "the tick"}}
                     ]
                 }
             ]
