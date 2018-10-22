@@ -455,19 +455,21 @@ function getClue(handlerInput) {
   const actors = sessionAttributes.currentActors;
   if (show === undefined || actors === undefined) return requestAttributes.t('ARE_YOU_READY');
 
+  // actors is an array of numbers so the clues can be randomized, but kept in the same order
   const actor = actors.split('');
-  let actorString = '';
-  let reference = 'this person';
 
-  for (let i = 0; i < actor.length; i += 1) {
-    if (i !== 0) {
-      actorString += ', and ';
-      reference = 'these people';
-    }
-    actorString += show['actor' + actor[i]];
+  switch (actor.length) {
+    case 1:
+      return requestAttributes.t('GAME_QUESTION_1_CLUE', show['actor' + actor[0]]);
+    case 2:
+      return requestAttributes.t('GAME_QUESTION_2_CLUES', show['actor' + actor[0]], show['actor' + actor[1]]);
+    case 3:
+      return requestAttributes.t('GAME_QUESTION_3_CLUES', show['actor' + actor[0]], show['actor' + actor[1]], show['actor' + actor[2]]);
+    default:
+      // should not get here...
+      console.log('ERROR: invalid number of clues.');
+      return '';
   }
-
-  return requestAttributes.t('GAME_QUESTION', reference, actorString);
 }
 
 function isErSuccessMatch(slot, handlerInput) {

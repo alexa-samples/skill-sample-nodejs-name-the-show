@@ -1,4 +1,4 @@
-// Copyright <YEAR> Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // Licensed under the Amazon Software License
 // http://aws.amazon.com/asl/
 
@@ -20,7 +20,9 @@ module.exports = {
     NEW_CLUE: 'OK.  I\'ve added an actor to your clues.  Here it is. %s',
     UPSELL_MESSAGE: 'You don\'t currently have any hints available.  Would you like to know more about the five hint pack?',
     CURRENTLY_UNAVAILABLE: 'I am sorry. That hint pack is not available for purchase at this time.',
-    GAME_QUESTION: 'Guess the show I\'m thinking of, that stars %s. <break time=\'.5s\'/> %s',
+    GAME_QUESTION_1_CLUE: 'Guess the show I\'m thinking of, that stars this person: <break time=\'.5s\'/> %s',
+    GAME_QUESTION_2_CLUES: 'Guess the show I\'m thinking of, that stars these people: <break time=\'.5s\'/> %s, and %s',
+    GAME_QUESTION_3_CLUES: 'Guess the show I\'m thinking of, that stars these people. <break time=\'.5s\'/> %s, %s, and %s',
     ARE_YOU_READY: ' Are you ready for a question? ',
   },
 };
