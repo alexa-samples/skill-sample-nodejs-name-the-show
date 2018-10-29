@@ -41,6 +41,7 @@ To use this sample:
     1. Enter `NameTheShowDynamoDBAccess` as the **Name**.
     1. Click **Create Policy**.
 1. That's it!  The skill should be enabled on your developer account.  Launch the skill by saying, **"Alexa, open name the show"**.
+    > Note: the first time you launch it, the DyanmoDB table will be created.  It is normal for an error to be returned while it is being created.  Check back after a few minutes and the skill will work as expected.
 
 ## License
 
