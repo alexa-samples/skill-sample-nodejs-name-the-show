@@ -32,7 +32,7 @@ To use this sample:
                         "dynamodb:GetItem",
                         "dynamodb:UpdateItem"
                     ],
-                    "Resource": "arn:aws:dynamodb:::table/NameTheShow"
+                    "Resource": "arn:aws:dynamodb:*:*:table/NameTheShow"
                 }
             ]
         }
