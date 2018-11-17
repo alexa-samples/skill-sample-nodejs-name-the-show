@@ -2,8 +2,11 @@
 // Licensed under the Amazon Software License
 // http://aws.amazon.com/asl/
 
+const clues = require('./clues-en.js');
+
 module.exports = {
   translation: {
+    CLUES: clues.clues,
     HINTS_AVAILABLE: 'You currently have %i hints available to use.',
     WELCOME_MESSAGE: 'Welcome to Name The Show!  I will give you the name of an actor or actress, and you have to tell me what television show I am thinking of. If you can\'t figure one out, you can purchase hints, and I\'ll give you the name of another actor from the same show. %s Ready for your first question?',
     CANNOT_BUY_RIGHT_NOW: 'I am sorry. The hint pack is not available for purchase at this time.',
