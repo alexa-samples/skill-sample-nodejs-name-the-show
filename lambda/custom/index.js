@@ -6,39 +6,6 @@ const Alexa = require('ask-sdk');
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 
-const data = [
-  {
-    'showName': 'The Man in the High Castle', 'actor1': 'Rupert Evans', 'actor2': 'Alexa Davalos', 'actor3': 'Luke Kleintank',
-  },
-  {
-    'showName': 'Goliath', 'actor1': 'Billy Bob Thornton', 'actor2': 'Tania Raymonde', 'actor3': 'Nina Arianda',
-  },
-  {
-    'showName': 'Bosch', 'actor1': 'Titus Welliver', 'actor2': 'Jamie Hector', 'actor3': 'Amy Aquino',
-  },
-  {
-    'showName': 'Hand of God', 'actor1': 'Ron Perlman', 'actor2': 'Dana Delany', 'actor3': 'Andre Royo',
-  },
-  {
-    'showName': 'Tom Clancy\'s Jack Ryan', 'actor1': 'John Krasinski', 'actor2': 'Wendell Pierce', 'actor3': 'John Hoogenakker',
-  },
-  {
-    'showName': 'The Grand Tour', 'actor1': 'Jeremy Clarkson', 'actor2': 'James May', 'actor3': 'Richard Hammond',
-  },
-  {
-    'showName': 'Transparent', 'actor1': 'Jeffrey Tambor', 'actor2': 'Gaby Hoffmann', 'actor3': 'Amy Landecker',
-  },
-  {
-    'showName': 'The Marvelous Mrs. Maisel', 'actor1': 'Matilda Szydagis', 'actor2': 'Rachel Brosnahan', 'actor3': 'Alex Borstein',
-  },
-  {
-    'showName': 'The Tick', 'actor1': 'Peter Serafinowicz', 'actor2': 'Griffin Newman', 'actor3': 'Jackie Earle Haley',
-  },
-  {
-    'showName': 'Sneaky Pete', 'actor1': 'Giovanni Ribisi', 'actor2': 'Marin Ireland', 'actor3': 'Shane McRae',
-  },
-];
-
 const languageStrings = {
   'en': require('./languages/en.js'),
 };
@@ -70,10 +37,10 @@ const YesIntentHandler = {
   },
   handle(handlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
 
     // GET RANDOM SHOW FROM OUR DATA.
-    const randomShow = getRandom(0, data.length - 1);
-    const show = data[randomShow];
+    const show = requestAttributes.t('CLUES');
     sessionAttributes.currentShow = show;
     // GET RANDOM ACTOR FROM OUR SHOW.
     const randomActor = getRandom(1, 3);
@@ -95,11 +62,12 @@ const BuyHintHandler = {
       handlerInput.requestEnvelope.request.intent.name === 'BuyHintIntent';
   },
   async handle(handlerInput) {
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+
     // SAVING SESSION ATTRIBUTES TO PERSISTENT ATTRIBUTES,
     // BECAUSE THE SESSION EXPIRES WHEN WE START A CONNECTIONS DIRECTIVE.
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const persistentAttributes = await handlerInput.attributesManager.getPersistentAttributes();
-    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
     persistentAttributes.currentSession = sessionAttributes;
     handlerInput.attributesManager.savePersistentAttributes();
 
@@ -134,12 +102,12 @@ const CancelPurchaseHandler = {
       handlerInput.requestEnvelope.request.intent.name === 'CancelPurchaseIntent';
   },
   async handle(handlerInput) {
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
+
     // SAVING SESSION ATTRIBUTES TO PERSISTENT ATTRIBUTES,
     // BECAUSE THE SESSION EXPIRES WHEN WE START A CONNECTIONS DIRECTIVE.
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const persistentAttributes = await handlerInput.attributesManager.getPersistentAttributes();
-    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-
     persistentAttributes.currentSession = sessionAttributes;
     handlerInput.attributesManager.savePersistentAttributes();
 
@@ -175,15 +143,16 @@ const BuyHintResponseHandler = {
         handlerInput.requestEnvelope.request.name === 'Buy');
   },
   async handle(handlerInput) {
-    const persistentAttributes = await handlerInput.attributesManager.getPersistentAttributes();
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
 
+    const persistentAttributes = await handlerInput.attributesManager.getPersistentAttributes();
     // REHYDRATE SESSION ATTRIBUTES AFTER RETURNING FROM THE CONNECTIONS DIRECTIVE.
     if (persistentAttributes.currentSession !== undefined) {
       sessionAttributes.currentShow = persistentAttributes.currentSession.currentShow;
       sessionAttributes.currentActors = persistentAttributes.currentSession.currentActors;
     }
+    
     console.log(`SESSION ATTRIBUTES = ${JSON.stringify(sessionAttributes)}`);
 
     let speakOutput = '';
@@ -407,10 +376,19 @@ const ErrorHandler = {
     console.log(`Error stack: ${error.stack}`);
     const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
 
-    return handlerInput.responseBuilder
-      .speak(requestAttributes.t('ERROR_MESSAGE'))
-      .reprompt(requestAttributes.t('ERROR_MESSAGE'))
-      .getResponse();
+    try {
+      return handlerInput.responseBuilder
+        .speak(requestAttributes.t('ERROR_MESSAGE'))
+        .reprompt(requestAttributes.t('ERROR_MESSAGE'))
+        .getResponse();
+    } catch (err) {
+      console.log(`The ErrorHandler encountered an error: ${err}`);
+      // this is fixed text because it handles the scenario where the i18n doesn't work correctly
+      const speakOutput = 'This skill encountered an error.  Please contact the developer.';
+      return handlerInput.responseBuilder
+        .speak(speakOutput)
+        .getResponse();
+    }
   },
 };
 
@@ -555,13 +533,18 @@ const LocalizationInterceptor = {
   },
 };
 
-const RequestLog = {
+const LogIncomingRequestInterceptor = {
   async process(handlerInput) {
     console.log(`REQUEST ENVELOPE = ${JSON.stringify(handlerInput.requestEnvelope)}`);
-    await checkInventory(handlerInput);
-    // return;
   },
 };
+
+const CheckInventoryInterceptor = {
+  async process(handlerInput) {
+    await checkInventory(handlerInput);
+  },
+};
+
 
 const skillBuilder = Alexa.SkillBuilders.standard();
 
@@ -574,16 +557,17 @@ exports.handler = skillBuilder
     HintHandler,
     BuyHintHandler,
     BuyHintResponseHandler,
+    CancelPurchaseHandler,
     IDontKnowHandler,
     HintInventoryHandler,
     CancelAndStopIntentHandler,
-    CancelPurchaseHandler,
     SessionEndedRequestHandler,
   )
   .addErrorHandlers(ErrorHandler)
   .addRequestInterceptors(
-    RequestLog,
+    LogIncomingRequestInterceptor,
     LocalizationInterceptor,
+    CheckInventoryInterceptor,
   )
   .withTableName('NameTheShow')
   .withAutoCreateTable(true)
