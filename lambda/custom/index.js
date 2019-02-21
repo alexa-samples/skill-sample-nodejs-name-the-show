@@ -152,7 +152,7 @@ const BuyHintResponseHandler = {
       sessionAttributes.currentShow = persistentAttributes.currentSession.currentShow;
       sessionAttributes.currentActors = persistentAttributes.currentSession.currentActors;
     }
-    
+
     console.log(`SESSION ATTRIBUTES = ${JSON.stringify(sessionAttributes)}`);
 
     let speakOutput = '';
@@ -545,10 +545,33 @@ const CheckInventoryInterceptor = {
   },
 };
 
+const ddbTableName = 'NameTheShow';
 
-const skillBuilder = Alexa.SkillBuilders.standard();
+function getPersistenceAdapter(tableName) {
+  // Determines persistence adapter to be used based on environment
+  // Note: tableName is only used for DynamoDB Persistence Adapter
+  if (process.env.S3_PERSISTENCE_BUCKET) {
+    // in Alexa Hosted Environment
+    // eslint-disable-next-line global-require
+    const s3Adapter = require('ask-sdk-s3-persistence-adapter');
+    return new s3Adapter.S3PersistenceAdapter({
+      bucketName: process.env.S3_PERSISTENCE_BUCKET,
+    });
+  }
+
+  // Not in Alexa Hosted Environment
+  // eslint-disable-next-line global-require
+  const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter'); // included in ask-sdk
+  return new ddbAdapter.DynamoDbPersistenceAdapter({
+    tableName: tableName,
+    createTable: true,
+  });
+}
+
+const skillBuilder = Alexa.SkillBuilders.custom();
 
 exports.handler = skillBuilder
+  .withPersistenceAdapter(getPersistenceAdapter(ddbTableName))
   .addRequestHandlers(
     LaunchRequestHandler,
     HelpIntentHandler,
@@ -569,6 +592,6 @@ exports.handler = skillBuilder
     LocalizationInterceptor,
     CheckInventoryInterceptor,
   )
-  .withTableName('NameTheShow')
-  .withAutoCreateTable(true)
+  .withApiClient(new Alexa.DefaultApiClient())
+  .withCustomUserAgent('name-the-show/v1')
   .lambda();
