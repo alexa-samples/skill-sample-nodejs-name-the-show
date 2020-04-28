@@ -1,0 +1,32 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "This is a game for anyone that watches television.  We will give you the name of an actor, and you have to tell us which show we are thinking of.  Easy, right?",
+          "examplePhrases": [
+            "Alexa, open Name The Show.",
+            "Alexa, start Name The Show",
+            "Alexa, play Name The Show"
+          ],
+          "keywords": [
+            "television",
+            "tv",
+            "trivia",
+            "knowledge",
+            "game",
+            "imdb"
+          ],
+          "name": "Name The Show",
+          "description": "This is a game for anyone that watches television.  We will give you the name of an actor, and you have to tell us which show we are thinking of.  Easy, right?  It's harder than you think.  If you run into trouble, you can always purchase hints, which will give you a second or third actor from the same show as clues.  Think you know television?  Good luck!"
+        }
+      },
+      "testingInstructions": "Start the skill, and it will present you with the name of an actor or actress.  You have to guess the show that the skill is thinking of.  If you get it wrong, you can continue guessing, or ask for a hint.\n\nUsers can buy 5 hints for $0.99.  Each question has two additional hints available, so after two hints, it should stop them from using additional hints, and force the user to get it correct or give up.",
+      "category": "KNOWLEDGE_AND_TRIVIA"
+    },
+    "apis": {
+      "custom": {}
+    },
+    "manifestVersion": "1.0"
+  }
+}
